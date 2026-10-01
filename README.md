@@ -12,16 +12,28 @@ AuraStream is a beautiful, modern, and ad-free music streaming web application b
 
 You can easily run this app on your own computer.
 
-### For Windows:
-1. Double click on the **`run.bat`** file.
-2. It will automatically install everything and start the server.
-3. Open your browser and go to: `http://localhost:8000`
+### 1. Clone the repository
+First, open your terminal or command prompt and run:
+```bash
+git clone https://github.com/WebsiteLeLo/aurastream.git
+cd aurastream
+```
 
-### For Linux/Mac:
-1. Open your terminal in this folder.
-2. Make the script executable: `chmod +x run.sh`
-3. Run the script: `./run.sh`
-4. Open your browser and go to: `http://localhost:8000`
+### 2. Start the App
+
+#### For Windows:
+Simply double-click on the **`run.bat`** file in the folder.
+*(Or run `run.bat` from your command prompt)*
+
+#### For Linux/Mac:
+Run the setup script from your terminal:
+```bash
+chmod +x run.sh
+./run.sh
+```
+
+### 3. Enjoy!
+Open your browser and go to: `http://localhost:8000`
 
 ## YouTube IP Block Issues (Optional) ⚠️
 If you get a "Streaming blocked" or "Bot detected" error even when running locally, it means your IP might be temporarily blocked by YouTube. 
