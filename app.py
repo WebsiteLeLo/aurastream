@@ -116,7 +116,8 @@ def play():
             'quiet': True,
             'default_search': 'ytsearch',
             'extract_flat': False,
-            'ignoreerrors': False
+            'ignoreerrors': False,
+            'extractor_args': {'youtube': {'player_client': ['android', 'web']}}
         }
         
         # Check for local cookies.txt file if user wants to use their own cookies
