@@ -1,4 +1,14 @@
 from flask import Flask, render_template, request, jsonify
+import spaces
+
+@spaces.GPU
+def fake_gpu():
+    pass
+try:
+    fake_gpu()
+except:
+    pass
+
 import sys
 import os
 
