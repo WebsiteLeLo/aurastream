@@ -129,16 +129,26 @@ def play():
             'ignoreerrors': False
         }
         
-        # Check for cookies in environment variable to bypass YouTube blocks
-        yt_cookies = os.environ.get('YT_COOKIES')
-        if yt_cookies:
-            cookie_file_path = '/tmp/youtube_cookies.txt'
-            try:
-                with open(cookie_file_path, 'w') as f:
-                    f.write(yt_cookies)
-                ydl_opts['cookiefile'] = cookie_file_path
-            except Exception as e:
-                print(f"Failed to write cookie file: {e}")
+        # Check for local cookies.txt file first (most reliable)
+        if os.path.exists('cookies.txt'):
+            ydl_opts['cookiefile'] = 'cookies.txt'
+        else:
+            # Fallback to environment variable if file doesn't exist
+            yt_cookies = os.environ.get('YT_COOKIES')
+            if yt_cookies:
+                # Try to fix HF secret newline stripping
+                yt_cookies = yt_cookies.replace('.youtube.com', '\n.youtube.com')
+                if not yt_cookies.startswith('# Netscape'):
+                    yt_cookies = '# Netscape HTTP Cookie File\n' + yt_cookies
+                    
+                cookie_file_path = '/tmp/youtube_cookies.txt'
+                try:
+                    with open(cookie_file_path, 'w') as f:
+                        f.write(yt_cookies)
+                    ydl_opts['cookiefile'] = cookie_file_path
+                except Exception as e:
+                    print(f"Failed to write cookie file: {e}")
+
 
         with yt_dlp.YoutubeDL(ydl_opts) as ydl:
             # Append 'official audio' to ensure we get the official song and not a weird video/wrong song
