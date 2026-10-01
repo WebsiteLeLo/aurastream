@@ -19,3 +19,4 @@ colorama
 
 spaces
 gradio
+huggingface-hub<0.25.0
