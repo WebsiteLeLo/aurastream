@@ -2,6 +2,15 @@
 
 AuraStream is a beautiful, modern, and ad-free music streaming web application built with Python and Flask. It uses YouTube as the backend to stream high-quality audio directly to your browser.
 
+<p align="center">
+  <img src="screenshots/discover.png" width="48%" />
+  <img src="screenshots/now_playing.png" width="48%" />
+</p>
+<p align="center">
+  <img src="screenshots/search.png" width="48%" />
+  <img src="screenshots/favorites.png" width="48%" />
+</p>
+
 ## Features ✨
 - **Ad-Free Music**: Stream your favorite songs without any interruptions.
 - **Beautiful UI**: Modern, glassmorphism-inspired dark mode interface.
