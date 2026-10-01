@@ -79,7 +79,26 @@ def search():
     except Exception as e:
         import traceback
         traceback.print_exc()
-        return jsonify({'error': str(e)}), 500
+        # Fallback to YouTube Search if Spotify blocks the IP
+        try:
+            from youtubesearchpython import VideosSearch
+            videosSearch = VideosSearch(query, limit = 15)
+            results = videosSearch.result().get('result', [])
+            songs = []
+            for video in results:
+                songs.append({
+                    'id': video.get('id', ''),
+                    'name': video.get('title', 'Unknown'),
+                    'artists': video.get('channel', {}).get('name', 'Unknown Artist'),
+                    'album': 'YouTube Audio',
+                    'cover_art': video.get('thumbnails', [{}])[0].get('url', 'https://via.placeholder.com/300'),
+                    'duration': video.get('duration', '0:00'),
+                    'duration_ms': 0,
+                    'preview_url': ''
+                })
+            return jsonify({'results': songs})
+        except Exception as fallback_e:
+            return jsonify({'error': str(e), 'fallback_error': str(fallback_e)}), 500
 
 @app.route('/api/play')
 def play():
@@ -95,7 +114,8 @@ def play():
             'quiet': True,
             'default_search': 'ytsearch',
             'extract_flat': False,
-            'ignoreerrors': True
+            'ignoreerrors': True,
+            'extractor_args': {'youtube': {'player_client': ['android', 'web']}}
         }
         with yt_dlp.YoutubeDL(ydl_opts) as ydl:
             # Append 'official audio' to ensure we get the official song and not a weird video/wrong song
