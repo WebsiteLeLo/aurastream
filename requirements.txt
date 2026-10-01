@@ -10,3 +10,9 @@ git+https://github.com/Aran404/SpotAPI@1e21506058450b94bfaa0651e9bdfabe042ae6f9#
 pymongo
 redis
 rich
+
+websockets
+pyotp
+Pygments
+validators
+colorama
