@@ -108,6 +108,8 @@ def play():
         
     try:
         import yt_dlp
+        import os
+        
         ydl_opts = {
             'format': 'bestaudio/best',
             'noplaylist': True,
@@ -117,6 +119,18 @@ def play():
             'ignoreerrors': True,
             'extractor_args': {'youtube': {'player_client': ['android', 'web']}}
         }
+        
+        # Check for cookies in environment variable to bypass YouTube blocks
+        yt_cookies = os.environ.get('YT_COOKIES')
+        if yt_cookies:
+            cookie_file_path = '/tmp/youtube_cookies.txt'
+            try:
+                with open(cookie_file_path, 'w') as f:
+                    f.write(yt_cookies)
+                ydl_opts['cookiefile'] = cookie_file_path
+            except Exception as e:
+                print(f"Failed to write cookie file: {e}")
+
         with yt_dlp.YoutubeDL(ydl_opts) as ydl:
             # Append 'official audio' to ensure we get the official song and not a weird video/wrong song
             info = ydl.extract_info(f"ytsearch1:{query} official audio", download=False)
