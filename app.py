@@ -1,14 +1,4 @@
 from flask import Flask, render_template, request, jsonify
-import spaces
-
-@spaces.GPU
-def fake_gpu():
-    pass
-try:
-    fake_gpu()
-except:
-    pass
-
 import sys
 import os
 
@@ -129,25 +119,9 @@ def play():
             'ignoreerrors': False
         }
         
-        # Check for local cookies.txt file first (most reliable)
+        # Check for local cookies.txt file if user wants to use their own cookies
         if os.path.exists('cookies.txt'):
             ydl_opts['cookiefile'] = 'cookies.txt'
-        else:
-            # Fallback to environment variable if file doesn't exist
-            yt_cookies = os.environ.get('YT_COOKIES')
-            if yt_cookies:
-                # Try to fix HF secret newline stripping
-                yt_cookies = yt_cookies.replace('.youtube.com', '\n.youtube.com')
-                if not yt_cookies.startswith('# Netscape'):
-                    yt_cookies = '# Netscape HTTP Cookie File\n' + yt_cookies
-                    
-                cookie_file_path = '/tmp/youtube_cookies.txt'
-                try:
-                    with open(cookie_file_path, 'w') as f:
-                        f.write(yt_cookies)
-                    ydl_opts['cookiefile'] = cookie_file_path
-                except Exception as e:
-                    print(f"Failed to write cookie file: {e}")
 
 
         with yt_dlp.YoutubeDL(ydl_opts) as ydl:
