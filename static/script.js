@@ -512,6 +512,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (currentTrackIndex === index) {
                     nativeAudio.src = data.url;
                     nativeAudio.play().catch(e => console.warn('Play error:', e));
+                    window.skipCount = 0; // Reset on successful load
                     isPlaying = true;
                     playBtnIcon.className = 'ph-fill ph-pause';
                     artworkWrapper.classList.add('spin');
@@ -519,11 +520,28 @@ document.addEventListener('DOMContentLoaded', () => {
                     preloadNext(index + 1); 
                 }
             } else {
-                if (currentTrackIndex === index) playNext(); 
+                if (currentTrackIndex === index) playNextWithLimit(); 
             }
         } catch(err) {
-            if (currentTrackIndex === index) playNext();
+            if (currentTrackIndex === index) playNextWithLimit();
         }
+    }
+
+    function playNextWithLimit() {
+        if (window.skipCount === undefined) window.skipCount = 0;
+        window.skipCount++;
+        
+        if (window.skipCount > 3) {
+            alert("Streaming is temporarily blocked. The host server might be rate-limited by YouTube/Spotify.");
+            window.skipCount = 0;
+            isPlaying = false;
+            playBtnIcon.className = 'ph-fill ph-play';
+            artworkWrapper.classList.remove('spin');
+            npBigArt.classList.remove('loading-pulse');
+            return;
+        }
+        
+        playNext();
     }
 
     function playNext() {
@@ -630,7 +648,7 @@ document.addEventListener('DOMContentLoaded', () => {
     nativeAudio.addEventListener('error', () => {
         if (isPlaying) {
             console.error("Audio streaming error, skipping to next track");
-            playNext();
+            playNextWithLimit();
         }
     });
 
