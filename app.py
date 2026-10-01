@@ -111,13 +111,12 @@ def play():
         import os
         
         ydl_opts = {
-            'format': 'bestaudio/best',
+            'format': 'best',
             'noplaylist': True,
             'quiet': True,
             'default_search': 'ytsearch',
             'extract_flat': False,
-            'ignoreerrors': False,
-            'extractor_args': {'youtube': {'player_client': ['android', 'web']}}
+            'ignoreerrors': False
         }
         
         # Check for cookies in environment variable to bypass YouTube blocks
