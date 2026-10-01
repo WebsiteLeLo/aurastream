@@ -16,3 +16,6 @@ pyotp
 Pygments
 validators
 colorama
+
+spaces
+gradio
