@@ -116,7 +116,7 @@ def play():
             'quiet': True,
             'default_search': 'ytsearch',
             'extract_flat': False,
-            'ignoreerrors': True,
+            'ignoreerrors': False,
             'extractor_args': {'youtube': {'player_client': ['android', 'web']}}
         }
         
