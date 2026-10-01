@@ -6,3 +6,7 @@ curl_cffi
 youtube-search-python
 gunicorn
 git+https://github.com/Aran404/SpotAPI@1e21506058450b94bfaa0651e9bdfabe042ae6f9#egg=spotapi
+
+pymongo
+redis
+rich
